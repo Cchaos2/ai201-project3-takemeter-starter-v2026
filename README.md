@@ -133,44 +133,60 @@ make the post `banter`, not `analysis`.
      cases. -->
 
 **Where the posts came from:**
+r/chess, a public subreddit. All 200 rows are
+comments copied by hand from several threads about the 2022 Carlsen–Niemann
+cheating controversy. Whole comments, not trimmed. One file, not split.
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+I labelled 20 comments cold first, no tools, just
+my three definitions and the decision rule, and marked them `cold` in the
+note column. I then gave Claude my definitions and decision rule and had it
+pre-label the remaining 180 in batches. I read every one of those 180 and
+corrected the ones I disagreed with; those rows are marked
+`prelabeled-AI (Claude), reviewed by me`. Seven rows that made me pause are
+marked `hard case` in the note column with which two labels it could have
+been and what I decided.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `claim` | 86 | 43% |
+| `analysis` | 64 | 32% |
+| `banter` | 50 | 25% |
+| **Total** | 200 | 100% |
+
+No label is above the 70% cap. `banter` is the thinnest label, so it will
+have only ~7–8 examples in the test split.
 
 **Three hard cases**
 
 <!-- Any post that made you pause: what it was, which two labels it could have
      been, and what you chose. These are worth more than the easy 190. -->
 
+**Three hard cases**
+
 **1.**
-> *The post:*
+> *The post:* "Has anyone ever thought that Magnus dropped out because he freaking lost his match in 52 traditional games? He was embarrassed and rage quit?"
 >
-> *Could have been:*
+> *Could have been:* `claim` or `analysis`. It reads like a hot opinion with a rhetorical question.
 >
-> *I chose, because:*
+> *I chose, because:* `analysis`. "52 traditional games" is a specific, checkable number and the point leans on it. By my decision rule, tone doesn't matter — a checkable specific the argument depends on makes it `analysis`.
 
 **2.**
-> *The post:*
+> *The post:* "holy shit guys this conspiracy goes all the way to the top / GM Daniel Naroditsky (!!!) / 2019 US Masters Chess Championship (Live Broadcast): 2723 TPR / 6th Annual Washington International (No Live Broadcast): 2521 TPR / and just look at this photo […] clearly frustrated that he doesn't have his engine assistance?? / (i have nothing against any of these players, just presenting objective facts that cannot be interpreted any other way)"
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `banter`. It contains real, checkable tournament performance ratings and a link.
 >
-> *I chose, because:*
+> *I chose, because:* `banter`. The sincerity test runs first. The whole post is a parody of the "look at his TPR" accusations — the numbers are real but they're used to mock the argument, not make it.
 
 **3.**
-> *The post:*
+> *The post:* "It's almost as if the world wasn't locked down for 18 months and these kids had nothing to do but study chess and there were no tournaments to update their progress. What's more plausible... all these kids are cheating or lockdowns and lack of tournaments negatively skewed the progress for a lot players?"
 >
-> *Could have been:*
+> *Could have been:* `banter` or `claim`. The opener "It's almost as if…" is sarcastic.
 >
-> *I chose, because:*
+> *I chose, because:* `claim`. The sarcasm is only the delivery; the author sincerely means the point (lockdowns explain the rating jumps). "18 months" is roughly right but not a specific the argument depends on, so it isn't `analysis` either.
 
 ---
 

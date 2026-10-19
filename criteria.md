@@ -51,62 +51,88 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy of at least 0.65 on the held-out test split, on every one of the three seeds (42, 7, 2024).
+
 
 <!-- Your criterion. It must name a number. -->
 
 
 
 **Why this target:**
+Two floors to beat: random guessing on 3 labels is ~33%,
+and always predicting my biggest label (`claim`, 86/200 = 43%) is 43%.
+Anything under 0.43 means the model learned nothing beyond the label counts.
+0.65 is 22 points above the majority floor. The test split is only 30 posts,
+so one post is 3.3 points, the target has to hold on all three seeds, not
+just a friendly draw.
 
 
 
 ---
 
-## 2.
+## 2. Every label has an F1 of at least 0.55 on the held-out test split, on every seed.
 
 <!-- Your criterion. -->
 
 
 
 **Why this target:**
-
+`banter` is my smallest label (50/200 = 25%), so about
+7–8 of them land in the test split and one or two misses move its F1 by 10+
+points. A floor of 0.55 is deliberately below the accuracy target because it
+has to hold for the thinnest label across three draws. It still rules out a
+model that scores well overall by ignoring `banter`.
 
 
 ---
 
-## 3.
+## 3. At most 30% of true `analysis` posts in the test split are predicted as `claim`, on every seed.
 
 <!-- Your criterion. -->
 
 
 
 **Why this target:**
-
+`claim` vs `analysis` is my hardest boundary, the only
+difference is whether a checkable specific is present and load-bearing, and it
+produced 6 of my 7 hard cases. This is read straight off the confusion matrix
+(row `analysis`, column `claim`, divided by the `analysis` row total). With
+~10 `analysis` posts in test, 30% means 3 posts; a model that pushes 4 or more
+into `claim` has not learned the boundary the taxonomy is built on.
 
 
 ---
 
-## 4.
+## 4. Agreement with the staff labels on the 30-post staff set is at least 70% (21 of 30), measured by `agreement.py`.
 
 <!-- Your criterion. -->
 
 
 
 **Why this target:**
-
+If I can't apply somebody else's written rule the way
+its authors did, my own 200 labels probably aren't consistent either, and the
+model's ceiling is my labelling, not its capacity. The staff set deliberately
+includes ambiguous posts, so 100% is not realistic; 70% is the point where
+most disagreements should be arguable from the definitions rather than
+careless.
 
 
 ---
 
-## 5.
+## 5. Accuracy on the most-confident third of test predictions exceeds accuracy on the least-confident third by at least 0.20, on every seed.
 
 <!-- Your criterion. -->
 
 
 
 **Why this target:**
-
+`results.json` records `accuracy_most_confident_third`
+and `accuracy_least_confident_third`. If the model's softmax confidence means
+anything, its sure guesses should be right more often than its unsure ones. A
+model that is 95% confident and wrong is worse to use than one that says it
+isn't sure. Each third is ~10 posts, so 0.20 is two posts of separation, 
+enough to be real, not just noise from one row.
 
 
 ---

@@ -54,34 +54,75 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+Three labels. Two questions decide every post, in this order:
+(1) Is the author sincere? If not → `banter`.
+(2) If sincere, does the post back its point with something a reader could
+check? Yes → `analysis`. No → `claim`.
 
-**Definition:**
+### `analysis`
 
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** A sincere post that backs its point with at least one
+checkable specific: a number, a date, a named source or quote, a link to
+evidence, or concrete chess moves.
 
 **Example 1:**
->
+> As the best researchers can tell, and in my own experience as an FBI Special Agent (now retired), detecting deception is very difficult. Every study conducted since 1986, when the famed researcher Paul Ekman first wrote about this, has demonstrated that we humans are no better than chance at detecting deception (Ekman & O'Sullivan 1991, 913-920; Granhag & Strömwall, 2004, 169; Mann & Vrij 2004). That means that if you toss a coin in the air you will be as likely to detect deception as the truth. And while it is true that a very few people are better at detecting deception than others, they are barely above chance. In fact, those that are really good are only correct somewhere around 60% of the time; that means that 40% of the time they are wrong and you would not like them sitting on a jury judging you." Joe Navarro
+ "Most people think that they are really good at detecting deception, especially with a loved one (a spouse or boyfriend or girlfriend).  Again, the exact opposite is more likely to be true (see Levine & McCornack; McCornack & Parks; DePaulo; Charlton; Cooper; Lindsay; and Muhlenbruck)." "If you are confident that you can catch a lover lying, that is a good sign that you are probably not very good at it " https://www.truthaboutdeception.com/site-info-and-resources/sources-and-references.htmlme talking now let's just keep this in mind when using his interview cues to damn him or anyone for that matter of tv interviews or whatever we SUCK AT THIS
 
 **Example 2:**
->
+> No. The position after move 5 is the main line Romanishan variation of the Nimzo-Indian. The standard continuation is 6. Nf3 dxc4 7. a3 Bxc3 8. bxc3 c5 which is the same position reached in the game vs Hans, just a different move order.
+
+
+### `claim`
+
+**Definition:** A sincere post that makes a point — an opinion, accusation,
+prediction or defence, with no checkable support offered; it may be right,
+but nothing in the post lets a reader verify it.
+
+**Example 1:**
+> Highly suspicious. No real proof, but its hard to think how all of this could happen without him cheating.
+
+
+**Example 2:**
+> Seems to be a play for media attention tbh. Chess has never had the attention that its players feel it deserves.
+
+
+### `banter`
+
+**Definition:** A post whose main purpose is to be funny (a joke, sarcasm,
+parody, pun or meme) rather than to sincerely argue a point, even if it
+mentions real facts.
+
+**Example 1:**
+> A Bishop, a White Knight and a GM walk into a bar. The bartender asks, "Is this some kind of joke?"
+
+**Example 2:**
+> chess.com should add a Hans bot and just have it be stockfish
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `claim` vs `analysis`.
+
+The borderline post:
+> Has anyone ever thought that Magnus dropped out because he freaking lost his match in 52 traditional games? He was embarrassed and rage quit?
+
+It reads like a hot opinion, but "52 traditional games" is a specific number
+the point leans on. Posts like this came up constantly: numbers that are
+estimates ("<10%"), personal anecdotes ("like 6 youth players"), or links
+that point at the thing being judged rather than at evidence.
 
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
-
+A post is `analysis` only if it contains a specific that a reader could go
+and check (a count, a date, a rating, a named person's statement, a link to
+evidence, or actual moves) and the point depends on it. Tone does not
+matter: a heated or rude post with a checkable number is still `analysis`.
+Numbers that are the author's own estimate or anecdote ("I think at least
+3 of them", "<10% chance") are not checkable, so the post is `claim`.
+The number may turn out to be wrong; what matters is that it can be checked.
+And the sincerity test always runs first, real statistics inside a parody
+make the post `banter`, not `analysis`.
 
 
 ---

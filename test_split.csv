@@ -1,0 +1,121 @@
+text,label,note
+"https://youtu.be/AG9XeSPflrU?t=272
+
+Punin shows that Hans had an amazing 76% 0 CP at Charlotte using Stockfish 12 (the latest Stockfish at the time) with his average around the time period over 117 games to be 62%.
+
+Just for fun, I ran it with Stockfish 15 and his accuracy dropped to 72%.",analysis,"prelabeled-AI (Claude), reviewed by me."
+"Seen a bunch of people say they think Niemann cheated OTB but didn't cheat against Magnus.
+
+This doesn't make any sense to me. The probability that someone who cheated OTB in the past cheats OTB again really isn't very low, whereas the probability that Magnus withdraws from a tournament is empirically quite low. And also, you really think little of Magnus' judgment. It's like he's the kind of guy who ragequits over a loss, when in fact his entire past behavior indicates he's not that guy at all.
+
+Personally, conditional on Hans having cheated OTB before, I'd put the probability of his game against Magnus being legit at <10%.
+
+(Also, people keep saying Magnus played poorly. But he obviously knew the opening he chose gives no objective advantage to white, and did it anyway, so clearly he was confident Hans would make mistakes. It's almost like people are reasoning ""it didn't work -> it was bad play -> Hans didn't cheat"" but obviously that's circular! For all we know, it would have worked just fine if Hans hadn't cheated.)",claim,"prelabeled-AI (Claude); hard case: analysis vs claim - '<10%' is a personal estimate, not checkable -> claim, reviewed by me."
+"People need to realize that Hans didn’t have to use an engine during the match to have cheated. Hans may have have cheated by consulting an engine in the weeks prior to his match with Magnus. It’s entirely possible that Hans used an engine to check moves a week before the match, and then memorized the moves in some form of preparation.",claim,"prelabeled-AI (Claude), reviewed by me."
+"I have attempted to verify the claims that Hans outperforms in broadcast tournaments. I have been unable to find any evidence for this claim. Note that I am not a statistician, so the below should be regarded critically.
+
+Scope: Classical between 2020 and now, during which Hans progressed from 2465 to 2688 classical FIDE rating. Atlanta Kings checked games from 2019 to 2020, which seems pointless to me.
+
+Sources: Games from scraping 365chess.com. Data on whether tournaments were broadcast by manually checking chess24, lichess, and chess.com events pages.
+
+Null hypothesis: Hans does not overperform in tournaments depending on whether they are broadcast or not.
+
+We define a overperformance metric as Hans' game score minus Hans' expected score given the elos of the two players, where the expected score is defined by FIDE as erfc(-eloDiff / ((2000.0/7) * sqrt(2))) / 2.
+
+We run a standard two-sample t-test. It can be argued that samples are not independently distributed; for example, due to streaks and tilting. However, this effect should be minimal considering the number of games analyzed.
+
+Number of broadcast games:  249
+Number of non-broadcast games:  91
+Broadcast overperformance mean:  0.07548174250316311
+Non-broadcast overperformance mean:  0.043300909768091825
+p:  0.45869142889543135
+At alpha=0.05, we fail to reject the null hypothesis: there is no statistically significant evidence that Hans overperforms in either broadcast or nonbroadcast tournaments.
+
+I have uploaded my Python code at https://pastebin.com/6EXSCH09 in case anyone wants to check my work or try this for other players. The most taxing part is to specify which tournaments are broadcast or not (e.g., some tournaments were broadcast on only one or two of lichess, chess.com, and chess24). If anyone knows of a data source that provides all games along with whether the tournament was broadcast live or not, please let me know.
+
+If it makes sense I can make a top-level post later with a few graphs once people have checked that my math isn't totally off.
+
+Finally, I'd like to note that none of this is really required. We already have several GMs stating that Hans is 2700 level for sure, plus his blitz/rapid ratings are commensurate with his classical rating. Still, there are other (doubtful) methods to cheat that would not be detected by the above naive analysis, so the claim here is only that there is no statistically significant difference between broadcast games and non-broadcast games.",analysis,"prelabeled-AI (Claude), reviewed by me."
+"Regen and Chess.com did extensive analysis of Hans' over the board games and found no indication that Hans is cheating.
+
+I trust them to be more thorough than random people online.",analysis,"prelabeled-AI (Claude), reviewed by me."
+"Guys look at the breaking news on Chess24. Hans Nielsen confessed cheating on his girlfriend. Sad news for chess.
+
+Magnum Carlson proven right",banter,"prelabeled-AI (Claude), reviewed by me."
+"This on it's own is not sufficient, could be explained by different demographics in tournaments without live DGT boards (average player may be lower rated and/or more likely to be underrated).
+
+Would be good to see the same analysis for other players similar to Hans strength as a control.",claim,"prelabeled-AI (Claude), reviewed by me."
+"Oh c'mon he did cheat.
+
+/s",banter,"prelabeled-AI (Claude), reviewed by me."
+"Someone on talkchess.com has worked through that twitter data analysis and believes there's a very strong correlation:
+
+If you run a regression on the above dataset, you will find that whether or not a tournament was broadcast live explains 67% (!!!!!) of the variation in Niemann's performance over that time period. (The rest of the variation is likely random, or at least isn't explained by age, number of rounds, or strength of opponents.)
+
+...
+
+This is incredibly damning, and in my mind confirms beyond a shadow of a doubt that Niemann was cheating OVER THE BOARD at every available opportunity in 2019 and 2020. There's no reason to believe that he didn't and doesn't simply continue to cheat over the board at every available opportunity, period.",analysis,"prelabeled-AI (Claude), reviewed by me."
+Kinda sad to see so many just strung along by one idea or another. It has been pretty obvious for a while Magnus Carlsen is Hans Neimann,banter,"prelabeled-AI (Claude), reviewed by me."
+"Is he really exonerated though? He hasn't adressed the allegations from chesscom that he wasn't being honest about the extent and seriousness of his cheating. Just because the news has calmed down doesn't really mean he is exonerated, and he is still banned.. He might be exonerated by some in the public eye, but my guess is that we haven't heard the last developement in this saga.",claim,cold
+"The chess world has been rocked by a scandal as top-ranked champion Magnus Carlsen quit the St. Louis Sinquefield Cup a couple of days ago. What do you make of this?
+
+Garry Kasparov:
+I don’t know all the details about the scandal in St. Louis where Carlsen pulled out after his match with Hans Niemann and he came just short of accusing his opponent of cheating. And I don’t wish to speculate.
+
+But, I think that Carlsen’s decision is unacceptable. As a world champ he has a responsibility to the game. Showing this disrespect to the players and organizers, St. Louis is the most prestigious tournament in the world, and it is absolutely wrong to do what he did.
+
+Carlsen must at least provide an explanation. You can’t just walk away and so far, he’s done just that. That bothers me a lot.
+
+Source",analysis,"prelabeled-AI (Claude), reviewed by me."
+"Hans is so deep in Magnus’ head. Magnus just can’t focus enough to play him at this point, and every loss he’ll blame on his lack of focus.
+
+It makes sense he’d be too sus to play on online match against him right now; he clearly shouldn’t have entered this tournament.",claim,cold
+"Honestly I am kind of surprised by the amount of hardcore Hans has on this sub. I don't think he cheated against Magnus but his other stuff looks shady and it's even more shady if he downplayed his cheating..
+
+On the other hand Magnus shouldn't get away with his hints without evidence either, he at least needs to clarify his tweet.",claim,"prelabeled-AI (Claude), reviewed by me."
+"People can be sus all they want and for good reason but I don't see any possible way to prove for sure that he cheated in the past otb. Alot of the circumstantial evidence has reasonable explanations other than cheating after all. ""He may have had very high accuracy games but those are also easier against weaker opponents."" ""His rating was misrepresented because of the covid era"". Unless you catch him red handed or he admits it, it will be difficult to say for sure. If there are increased security measures that prevent him from cheating, his rating will naturally fall over time as he plays if he was cheating.",claim,"prelabeled-AI (Claude), reviewed by me."
+"It definitely cannot have something to do with the fact that his opponent in the WCC was — you know — the strongest active chess player with several tournaments worth of experience, 10+ years at #1, etc etc. Guess he should have trusted his “position looks winning, what is there to explain”instincts more in the WCC, I heard it is good at taking down world champions.",banter,"prelabeled-AI (Claude), reviewed by me."
+Once a cheater always a cheater is just a lazy and dumb assumption to have in life. Everyone is capable of anything and everyone can change but not in this particular trait nope. No considerations of the circumstances or situations. Just do that 1 thing once and you're forever gonna do it again and again. Okay.,claim,"prelabeled-AI (Claude), reviewed by me."
+"Oh good, I was wondering when the renowned cheat detection expert DrCliche would weigh in",banter,"prelabeled-AI (Claude), reviewed by me."
+"I mean if Hans chess career crumbles, he will still be able to become a decent comedian I think.",banter,"prelabeled-AI (Claude), reviewed by me."
+"I think it is insane that someone makes the jump from 2400 IM to 2700 GM in 3 years
+
+I think out of all the possible evidence this one sticks out the least to me, personally.
+
+Hans was already grinding chess online/at home, he was not 2400 IM when OTB resumed. I remember Hikaru already saying during one of his streams (when playing TT or some Blitz against Hans) that Hans is very clearly already GM strength, and this was before Hans even got his 3rd GM Norm
+
+Hans was doing well at faster time controls online, which makes it harder to cheat given that he had to play his moves quickly (and the engine takes a while to calculate at a higher depth). I don't think anything is suspicious about the length of his moves compared to the strengths of those moves when he played with faster time controls
+
+He was already 2400 way before COVID, according to FIDE website he was 2400+ in 2018 September, so it's basically 4 entire years.",analysis,"prelabeled-AI (Claude), reviewed by me."
+"No reason to assume he cheated?
+
+Admitted to cheating online
+
+Massive elo rise at the age of 17/18
+
+Suspiciously strong games in GM norms
+
+~200 elo difference when games are broadcast
+
+Banned from a private cash tournament
+
+Accused of cheating by several super GMs
+
+Extremely erratic and questionable interviews",analysis,"prelabeled-AI (Claude), reviewed by me."
+It's almost as if the world wasn't locked down for 18 months and these kids had nothing to do but study chess and there were no tournaments to update their progress. What's more plausible... all these kids are cheating or lockdowns and lack of tournaments negatively skewed the progress for a lot players?,claim,"prelabeled-AI (Claude); hard case: banter vs claim - sarcastic opener but the author means it -> claim, reviewed by me."
+Is anyone considering the point that a vibrating butt plug or any electronic device for that matter would get picked up by the metal detectors they have to go through to enter the tournament?,claim,cold
+"The reason people say he lied in the interview is because chess website put out the tweet saying that he lied about the amount and the extent of his cheating.
+
+And they say that not by detecting falsehoods, but by their anticheat software which runs on the website which uses many techniques such as time taken to make the move etc.
+
+So while your quote is interesting and I remember reading it on reddit before... It isn't very applicable in this scenario.",analysis,"prelabeled-AI (Claude), reviewed by me."
+Dont follow chess too closely but isnt this the same kid that refused to pay like the $5 entry for a charity tournament? Kid seems very talented but I hope for his sake that he does some growing up very quick or else he might crash and burn,analysis,"prelabeled-AI (Claude), reviewed by me."
+"hey guys. i decided that this is too much drama with the super GMs so I’d like to announce a new chess league I’m starting where no one over 650 ELO is allowed to compete. This will ensure no cheating (since it would be noticeable) and minimal draws. For more info, email me at playmagnus@hotmail.com",banter,"prelabeled-AI (Claude), reviewed by me."
+Curious why someone would believe a guy that admits to cheating online multiple times wouldn’t also try to cheat OTB. Is it that unbelievable?,claim,"prelabeled-AI (Claude), reviewed by me."
+"It's not unbelievable, it actually makes it more likely imo. But given no other evidence, we have to give Hans the benefit of the doubt after some amount of time. As it stands, we currently have no supporting evidence of cheating OTB, and have many analyses saying the Magnus game wasn't suspicious.
+
+You just have to ask yourself if you're the type of person who believes kids deserve 2nd chances or not.",claim,"prelabeled-AI (Claude), reviewed by me."
+"Although I concede it's true that Niemann did substantially worse after Carlsen left, there are many confounders here. Could be that the accusations sunk his confidence and ruined his concentration. His anxiety over chess.com ban and scrutiny from other chess players might have also made him spend less time on night prep. It could have nothing to do with the enhanced anti-cheating interventions.",claim,"prelabeled-AI (Claude), reviewed by me."
+"The ukranian chess coach who released a video covering hans performance in a 2017 titled Tuesday also released a video analysing Hans performance between this period of time.
+
+https://youtu.be/BSryN6ok7uM",analysis,"prelabeled-AI (Claude), reviewed by me."

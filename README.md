@@ -41,7 +41,12 @@
 
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
-
+TakeMeter sorts comments from r/chess, collected from the threads about the
+2022 Carlsen–Niemann cheating controversy. It classifies each comment into one
+of three labels: `analysis` (a sincere point backed by something a reader can
+check — a number, a date, a named source, a link, or chess moves), `claim`
+(a sincere point with no checkable support), or `banter` (jokes, sarcasm and
+parody that aren't arguing a point at all). 
 
 
 ---
@@ -165,8 +170,6 @@ have only ~7–8 examples in the test split.
 <!-- Any post that made you pause: what it was, which two labels it could have
      been, and what you chose. These are worth more than the easy 190. -->
 
-**Three hard cases**
-
 **1.**
 > *The post:* "Has anyone ever thought that Magnus dropped out because he freaking lost his match in 52 traditional games? He was embarrassed and rage quit?"
 >
@@ -194,17 +197,24 @@ have only ~7–8 examples in the test split.
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
 **Settings:** <!-- epochs, learning rate, batch size, seed -->
+3 epochs, learning rate 2e-5, batch size 16, max_length 128,
+seed 42. Device: `mps` (Apple Silicon GPU), torch 2.14.1.
 
 **Anything I changed from the defaults, and why:**
+Nothing. I kept the
+notebook defaults so the Unit 6 comparison across seeds starts from the
+standard configuration.
 
 **Split sizes:** <!-- train / val / test, and per-label counts in the test
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
-
-
+train 139 / val 31 / test 30. Per-label in test:
+`claim` 13, `analysis` 10, `banter` 7. The notebook flagged that `banter`
+has only 7 test examples, so its F1 will move a lot between seeds — one
+missed post is ~14 points.
 
 ---
 
@@ -217,19 +227,41 @@ of next unit's variance. -->
      workflow and disclosing it costs you nothing. Not disclosing it is the
      problem. -->
 
-**Moment 1**
+**Moment 1**: pre-labelling the batch
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I gave Claude my three definitions, the decision rule
+  for `claim` vs `analysis`, and the 180 comments I had not labelled cold, in
+  batches, and asked for one label per comment plus a one-line reason.
+- *What came back:* Labels for every comment. Most matched what I would
+  have chosen.
+- *What I changed:* I read every one of the 180 and corrected the ones that
+  broke my rule, numbers that aren't checkable went back to `claim`, and the
+  parody went to `banter` because the sincerity test runs first. The ones
+  that made me pause became my hard cases, and the pattern of its mistakes
+  is what made me add "the number has to be checkable, not an estimate" to
+  the decision rule.
 
-**Moment 2**
+**Moment 2**: understanding the first training run
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* After section 5 printed accuracy 0.500, macro F1
+  0.322 and `banter` F1 0.000, I pasted the per-epoch loss table and the
+  results and asked whether something was wrong with my setup.
+- *What came back:* That nothing was broken. The progress bar showed 27/27
+  steps, 139 training rows at batch size 16 over 3 epochs is only 27
+  gradient updates, and the final training loss of 1.006 and validation
+  loss of 1.025 are barely below ln(3) ≈ 1.10, the loss of random guessing
+  on three labels. The model had learned to predict the majority label
+  (`claim`, F1 0.63) and never predicted `banter` once. 
+- *What I changed:* Nothing in the notebook — my criteria were already
+  filed and retraining after seeing the test numbers is the thing the course
+  warns against.
 
 **Pre-labelling disclosure:**
+20 of the 200 rows were labelled by me alone,
+with no tools, before any AI was involved; they are marked `cold` in the
+`note` column. The remaining 180 were pre-labelled by Claude from my
+definitions and decision rule, then read and corrected one by one by me;
+they are marked `prelabeled-AI (Claude), reviewed by me`.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 

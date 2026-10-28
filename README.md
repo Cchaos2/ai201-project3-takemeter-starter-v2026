@@ -413,24 +413,71 @@ into `claim` on every seed.
 <!-- MET or MISSED against LAST UNIT's target. The target has to hold across
      all three seeds, not turn up sometimes. -->
 
-| # | Criterion | Target | Verdict | How I decided |
-|---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+No criteria were revised. All five could be measured as written, so
+`criteria.md` is unchanged from unit 5.
+
+| # | Criterion | Target | Verdict | How I decided                                                                                                                                                                                                                                                                                                             |
+|---|---|---|---|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | Overall accuracy | ≥ 0.65 on every seed | MISSED | 0.500, 0.433, 0.433. No seed reaches the target; the best is 15 points short, and two seeds equal the 0.433 a model that always says `claim` would get.                                                                                                                                                                   |
+| 2 | Every label F1 | ≥ 0.55 on every seed | MISSED | `banter` F1 is 0.000 on all three seeds and `analysis` F1 is 0.333, 0.000, 0.000. Only `claim` clears 0.55 (0.634, 0.605, 0.605).                                                                                                                                                                                         |
+| 3 | True `analysis` predicted as `claim` | ≤ 30% on every seed | MISSED | 80% (8/10), 100% (10/10), 100% (10/10), read from row `analysis`, column `claim` of each seed's matrix. The target allowed 3 of 10; the best seed had 8.                                                                                                                                                                  |
+| 4 | Agreement with staff labels | ≥ 70% (21/30) | MET | 25/30 = 83% from `agreement.py`. One measurement of my labelling, so it does not vary by seed.                                                                                                                                                                                                                            |
+| 5 | Most-confident third beats least-confident third | ≥ +0.20 on every seed | MET | +0.400, +0.500, +0.600, all above +0.20. But this is a hollow pass: on seeds 7 and 2024 the model predicted `claim` for all 30 posts, so "right when confident" only means it was more confident on posts that happened to be `claim`. The criterion was met as originally written; it does not show the model is useful. |
 
 **Diagnoses**
 
-<!-- For each miss: the cause, and how you know. The four common causes are:
-     too few examples for a label, a boundary you applied inconsistently, a
-     genuinely hard label pair, and a task the model can't reach from this
-     much data.
+**Criterion 1 (accuracy) and criterion 2 (`banter` F1): a task the model
+can't reach with this much data and training.**
+The model collapsed onto the majority label on every seed: it predicted
+`claim` for 28 of 30 posts on seed 42 and for 30 of 30 on seeds 7 and 2024.
+That is why seeds 7 and 2024 have identical numbers. Every split has exactly
+13 `claim` posts, so a model that only says `claim` scores 13/30 = 0.433 on
+each. `banter` was never predicted once on any seed: all 7 real `banter`
+posts went to `claim` every time. The training budget explains the
+collapse. 139 training posts at batch size 16 over 3 epochs is only 27
+gradient updates, and in unit 5 the final training loss (1.006) and
+validation loss (1.025) were barely below ln(3) ≈ 1.10, the loss of
+guessing at random on three labels. The model never got past learning the
+label counts. This is not a labelling problem for `banter`: nothing in my
+agreement check points at the sincerity test, and a model with an
+inconsistent `banter` boundary would still predict `banter` sometimes and
+get some wrong. Mine never predicts it at all. `banter` is also my
+thinnest label (50 posts, about 35 in each training split), so too few
+examples makes it the first label to disappear. The zero-shot baseline,
+which had no training, got `banter` F1 0.417 from my definition alone, so
+the label is learnable; my fine-tune just didn't learn it.
 
-     ⚠️ Use your agreement report as evidence. It is the only instrument you
-     have that can tell a LABELLING problem from a MODEL problem, and this
-     section is graded on whether you used it that way. -->
+**Criterion 3 (`analysis` predicted as `claim`): mostly the same collapse,
+plus a boundary I applied inconsistently.**
+`analysis` → `claim` is the biggest off-diagonal cell on every seed (8, 10,
+10), and 0 `claim` posts went the other way, so the direction is entirely
+toward `claim`. Part of that is the collapse above, which would push every
+label into `claim` regardless. But my agreement report shows the
+`analysis` boundary is also a labelling problem. 4 of my 5 disagreements
+with staff were on `analysis` vs. no-support (staff `hot_take`, the same
+boundary as my `claim`), and in 3 of them I called a post `analysis`
+because it contained a number, when nothing was argued from it (sp_014,
+sp_018, sp_023). My unit 5 rule has the same "and the point depends on it"
+clause I applied loosely on the staff set, so my 200 labels probably
+include `analysis` posts that are really `claim` with a number in them.
+That makes the boundary harder to learn from my data than the taxonomy
+intends: some `analysis` training examples look exactly like `claim`.
+The one disagreement going the other way (sp_005) came from importing my
+own "anecdotes aren't checkable" exclusion, which shows I apply that part
+of my rule inconsistently too.
+
+A possible third cause I haven't tested: the model reads only the first
+128 tokens (about 95 words) of each post, and 36% of my `analysis` posts
+are longer than that, against 22% of `claim` and 8% of `banter`. In a long
+post the checkable specific may come after the cut-off, so the model would
+see an unsupported opening and nothing else.
+
+**Which cause comes first.** The collapse is the main cause, because it
+hits every label equally, including `banter`, where my agreement check
+shows no labelling problem. The inconsistent `analysis` boundary is a real
+second cause, but fixing my labels alone would not help a model that never
+predicts anything except `claim`. That is why my one improvement targets
+training (Milestone 5).
 
 
 

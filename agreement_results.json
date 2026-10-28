@@ -1,0 +1,33 @@
+{
+  "compared": 30,
+  "agreed": 25,
+  "agreement_rate": 0.8333333333333334,
+  "disagreements": [
+    {
+      "text": "Carbon plates aren't the whole story. My times dropped 2% in the shoes and another 2% the following year in the same pair, when the only thing that changed was going from 35 to 50 miles a week.",
+      "staff": "analysis",
+      "mine": "hot_take"
+    },
+    {
+      "text": "The club needs to stop pretending the Tuesday session is for everyone. It isn't and it never has been.",
+      "staff": "hot_take",
+      "mine": "reaction"
+    },
+    {
+      "text": "Times are down about 3% since the shoe rules changed, so obviously the shoes are the whole story and the sport has a problem.",
+      "staff": "hot_take",
+      "mine": "analysis"
+    },
+    {
+      "text": "Track sessions are wasted on anyone running slower than 8 minute miles. You'd get more out of just running more.",
+      "staff": "hot_take",
+      "mine": "analysis"
+    },
+    {
+      "text": "First run back after eight weeks out. Two miles, slower than my warm-up used to be, and I don't care even slightly.",
+      "staff": "reaction",
+      "mine": "analysis"
+    }
+  ],
+  "staff_posts_not_in_mine": 0
+}

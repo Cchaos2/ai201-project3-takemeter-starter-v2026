@@ -344,7 +344,7 @@ Every test split has 30 posts: 13 `claim`, 10 `analysis`, 7 `banter`.
 | 1. Overall accuracy | ≥ 0.65 on every seed | 0.500 | 0.433 | 0.433 | MISSED |
 | 2. Every label F1 (lowest label shown) | ≥ 0.55 on every seed | 0.000 (`banter`) | 0.000 (`analysis`, `banter`) | 0.000 (`analysis`, `banter`) | MISSED |
 | 3. True `analysis` predicted as `claim` | ≤ 30% on every seed | 80% (8/10) | 100% (10/10) | 100% (10/10) | MISSED |
-| 4. Agreement with staff labels | ≥ 70% (21/30) | pending (Milestone 3) | — | — | pending |
+| 4. Agreement with staff labels | ≥ 70% (21/30) | 83% (25/30) | same (one measurement) | same (one measurement) | MET |
 | 5. Most-confident third minus least-confident third (accuracy) | ≥ +0.20 on every seed | +0.400 (0.800 vs 0.400) | +0.500 (0.700 vs 0.200) | +0.600 (0.700 vs 0.100) | MET |
 
 **Spread across seeds** (from section 6):
@@ -443,8 +443,11 @@ into `claim` on every seed.
      Remember you labelled these 30 under the STAFF taxonomy in
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
+I labeled the 30 staff posts under `data/staff_taxonomy.md`, not my own chess
+taxonomy, saved them in `my_staff_labels.csv`, and committed that file before
+opening `data/staff_labels.csv`.
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** 25 / 30 = 83%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -467,24 +470,98 @@ into `claim` on every seed.
      what you did across your own 200. -->
 
 **1.**
-> *The post:*
+> *The post:* "Carbon plates aren't the whole story. My times dropped 2% in the shoes and another 2% the following year in the same pair, when the only thing that changed was going from 35 to 50 miles a week."
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `analysis` / `hot_take`
 >
-> *My call, and why:*
+> *My call, and why:* Staff is right. I read the opening sentence as a
+> conclusion already reached and the numbers as decoration (Rule 1). But the
+> second sentence is a comparison that isolates one variable: same shoes, a
+> second 2% drop, and the only change was 35 → 50 miles a week. That comparison
+> is the reason the shoes "aren't the whole story", so the fact is
+> load-bearing. I was also bringing in my own unit 5 rule that personal
+> anecdotes with numbers aren't checkable. The staff definition has no such
+> exclusion, and I had already labelled sp_002, also one runner's own data,
+> as `analysis`.
 >
-> *Which pile:*
+> *Which pile:* (a) the rule covered it and I applied it loosely.
 
 **2.**
-> *The post:*
+> *The post:* "The club needs to stop pretending the Tuesday session is for everyone. It isn't and it never has been."
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `hot_take` / `reaction`
 >
-> *My call, and why:*
+> *My call, and why:* Staff is right. Rule 2 asks whether the post is about a
+> claim or about the writer. Nothing here reports what just happened to the
+> writer. It is a general assertion about who the session serves, and "never
+> has been" makes it a claim across time rather than an immediate response. I
+> read the frustration as `reaction`, but the taxonomy says a post can be
+> heated and still be `hot_take` if it makes a general claim.
 >
-> *Which pile:*
+> *Which pile:* (a) the rule covered it and I applied it loosely.
+
+**3.**
+> *The post:* "Times are down about 3% since the shoe rules changed, so obviously the shoes are the whole story and the sport has a problem."
+>
+> *Staff said / I said:* `hot_take` / `analysis`
+>
+> *My call, and why:* I think my reading is defensible, and I keep `analysis`.
+> `hot_take` is "a confident claim with no support offered", and this post
+> offers support: a number (3%) plus a timing link ("since the shoe rules
+> changed"), joined to the conclusion by "so". That timing link is exactly what
+> separates the taxonomy's own Rule 1 `hot_take` example ("…times are down 3%
+> since 2017") from its `analysis` example ("…and the shoe rule changed in 2017. That's the most likely single cause"). What remains is that the
+>conclusion overreaches: "the whole story" and "the sport has a problem" go
+>further than 3% can carry. The strongest case for staff is that the
+>overreach is the point, and "so obviously" signals a conclusion held
+>regardless of the number. But Rule 1 asks whether the fact carries the
+>argument, not whether the argument is good. An overstated inference from a
+>load-bearing fact is weak analysis, not an unsupported claim.
+>
+> *Which pile:* (c) the rule is ambiguous here, and my reading is defensible.
+> Rule 1 doesn't say whether an overstated conclusion turns a load-bearing
+> fact into decoration.
+
+**4.**
+> *The post:* "Track sessions are wasted on anyone running slower than 8 minute miles. You'd get more out of just running more."
+>
+> *Staff said / I said:* `hot_take` / `analysis`
+>
+> *My call, and why:* Staff is right. "8 minute miles" is a threshold inside
+> the claim, not a fact offered as evidence. Nothing checkable supports
+> "wasted" or "you'd get more out of running more". Under Rule 1 no fact
+> carries anything; it is two confident claims. I labelled it `analysis`
+> because a number was present.
+>
+> *Which pile:* (a) the rule covered it and I applied it loosely.
+
+**5.**
+> *The post:* "First run back after eight weeks out. Two miles, slower than my warm-up used to be, and I don't care even slightly."
+>
+> *Staff said / I said:* `reaction` / `analysis`
+>
+> *My call, and why:* Staff is right. I cited Rule 3 (recency does not outrank
+> evidence), but Rule 3 only applies when the post argues from a load-bearing
+> fact. "Eight weeks" and "two miles" report what just happened to the writer,
+> nothing is argued from them, and the post ends on a feeling ("I don't care
+> even slightly"). Under Rule 2 it is about the writer, so it is `reaction`.
+>
+> *Which pile:* (a) the rule covered it and I applied it loosely.
 
 **What the pattern in my disagreements tells me:**
+4 of my 5 disagreements are on the `analysis` boundary, and 3 of them go the
+same way (sp_014, sp_018, sp_023): I called a post `analysis` because it
+contained a number, when nothing was argued from that number. The one going
+the other way (sp_005) came from importing my own "anecdotes aren't
+checkable" exclusion. Piles: (a) 4, (b) 0, (c) 1. This matters for my own
+data because the staff `analysis`/`hot_take` boundary is the same as my
+`analysis`/`claim` boundary, and my unit 5 decision rule has the same
+"and the point depends on it" clause I applied loosely here. That suggests
+my 200 labels on that boundary are not consistent: some posts are probably
+labelled `analysis` on the presence of a number alone. That is the boundary
+my confusion matrix shows the model failing on every seed (8–10 of 10
+`analysis` posts predicted `claim`). Only one disagreement (sp_013) involves
+`reaction`, which has no counterpart in my taxonomy.
 
 
 

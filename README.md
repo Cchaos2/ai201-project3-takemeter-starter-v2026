@@ -275,21 +275,56 @@ they are marked `prelabeled-AI (Claude), reviewed by me`.
 <!-- Both models on the same posts. `python baseline.py --trained results.json`
      prints this table for you. -->
 
+Baseline: `facebook/bart-large-mnli`, zero-shot, using the definitions in
+`label_definitions.txt`. 
+
+Trained: my fine-tuned `distilbert-base-uncased` from
+unit 5 (seed 42, `results.json`). Both scored on the same 30 held-out posts in
+`test_split.csv` (13 `claim`, 10 `analysis`, 7 `banter`).
+
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.367 | 0.500 | +0.133 |
+| Macro F1 | 0.358 | 0.322 | -0.035 |
+| F1 — `analysis` | 0.421 | 0.333 | -0.088 |
+| F1 — `banter` | 0.417 | 0.000 | -0.417 |
+| F1 — `claim` | 0.235 | 0.634 | +0.399 |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+I predict the trained model will beat the baseline only on claim, because it predicts
+claim for almost everything, and that the baseline will beat it on banter, since the 
+trained model never predicted banter once.
+
+**Definitions vs. bare label names:** With my definitions the baseline scored
+0.367 accuracy and 0.358 macro F1; with bare label names only it scored 0.467
+accuracy and 0.326 macro F1. So my definitions cost 0.100 of accuracy but added
+0.032 of macro F1, and the difference is almost all `banter`: 0.417 F1 with
+definitions, 0.000 without. With bare names the baseline behaves like my
+trained model, leaning on `claim` (F1 0.579) and never getting a `banter` post
+right; the definitions are what made it use all three labels. I report the
+definitions run as my baseline in the table above, because that is the fair
+opponent the brief describes, and its result is in `baseline_results.json`. The
+bare-names run is in `baseline_bare_results.json`.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
-
+My prediction was mostly right: the trained model beats the baseline on `claim`
+(+0.399) and loses badly on `banter` (-0.417). What I didn't predict is that the
+baseline also beats it on `analysis` (-0.088), and that the trained model's
+`claim` advantage is big enough to win on overall accuracy (+0.133) while still
+losing on macro F1 (-0.035). That accuracy win is not evidence that fine-tuning
+taught it my taxonomy. The trained model predicted `claim` for 28 of 30 posts,
+so it catches all 13 real `claim` posts while scoring 0.000 on `banter` and
+0.333 on `analysis`. Always guessing `claim` would score 0.433 on this split, so
+the trained model is only 2 posts better than a majority-class guesser. The
+baseline is worse overall (0.367, below that majority floor and barely above
+the 0.33 of random guessing), but it is the only one of the two that uses all
+three labels. Neither model has learned the distinctions my taxonomy draws:
+fine-tuning on 139 posts for 27 gradient steps mostly learned the label counts,
+not the labels. 
 
 
 ---

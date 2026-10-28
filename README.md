@@ -334,30 +334,76 @@ not the labels.
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->
 
+**Device:** `mps` (Apple Silicon GPU), torch 2.14.1. All three seeds were run
+on this machine in one execution of section 6. Settings unchanged from unit 5:
+`distilbert-base-uncased`, 3 epochs, lr 2e-5, batch 16, max_length 128.
+Every test split has 30 posts: 13 `claim`, 10 `analysis`, 7 `banter`.
+
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.65 on every seed | 0.500 | 0.433 | 0.433 | MISSED |
+| 2. Every label F1 (lowest label shown) | ≥ 0.55 on every seed | 0.000 (`banter`) | 0.000 (`analysis`, `banter`) | 0.000 (`analysis`, `banter`) | MISSED |
+| 3. True `analysis` predicted as `claim` | ≤ 30% on every seed | 80% (8/10) | 100% (10/10) | 100% (10/10) | MISSED |
+| 4. Agreement with staff labels | ≥ 70% (21/30) | pending (Milestone 3) | — | — | pending |
+| 5. Most-confident third minus least-confident third (accuracy) | ≥ +0.20 on every seed | +0.400 (0.800 vs 0.400) | +0.500 (0.700 vs 0.200) | +0.600 (0.700 vs 0.100) | MET |
+
+**Spread across seeds** (from section 6):
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.500 | 0.433 | 0.433 | 0.067 |
+| Macro F1 | 0.322 | 0.202 | 0.202 | 0.121 |
+| F1 — `analysis` | 0.333 | 0.000 | 0.000 | 0.333 |
+| F1 — `claim` | 0.634 | 0.605 | 0.605 | 0.029 |
+| F1 — `banter` | 0.000 | 0.000 | 0.000 | 0.000 |
+
+Accuracy moved only 0.067 across seeds, under the 10-point instability line,
+but that stability is not a sign the measure is trustworthy. On seeds 7 and
+2024 the model predicted `claim` for all 30 posts, and every split has exactly
+13 `claim` posts, so both score exactly 13/30 = 0.433. The numbers are stable
+because the model is doing the same trivial thing on every split. Seed 42 is
+the only run where it predicted anything other than `claim` (2 `analysis`
+posts, both correct).
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
+Seed 42 (the matrix section 7 prints):
+
+| true \ predicted | analysis | claim | banter |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| **analysis** | 2 | 8 | 0 |
+| **claim** | 0 | 13 | 0 |
+| **banter** | 0 | 7 | 0 |
+
+Seed 7:
+
+| true \ predicted | analysis | claim | banter |
+|---|---|---|---|
+| **analysis** | 0 | 10 | 0 |
+| **claim** | 0 | 13 | 0 |
+| **banter** | 0 | 7 | 0 |
+
+Seed 2024:
+
+| true \ predicted | analysis | claim | banter |
+|---|---|---|---|
+| **analysis** | 0 | 10 | 0 |
+| **claim** | 0 | 13 | 0 |
+| **banter** | 0 | 7 | 0 |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
 
+8 real `analysis` posts were called `claim` on seed 42 (10 of 10 on the other
+two seeds) and 0 went the other way, so the model never learned the
+`analysis`/`claim` boundary my taxonomy is built on: it treats "no checkable
+specific" as the default for everything, and all 7 `banter` posts also fall
+into `claim` on every seed.
 
 
 ---

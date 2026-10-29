@@ -256,6 +256,16 @@ missed post is ~14 points.
   filed and retraining after seeing the test numbers is the thing the course
   warns against.
 
+**Moment 3**: Claude warned that rerunning notebook section 5 would overwrite
+`results.json` and `test_split.csv`, so I split the cells and ran only the
+function definitions. It also wrote a cell that prints per-seed matrices and
+confidence thirds, which criteria 3 and 5 needed.
+
+**Moment 4**: Claude pointed out that seeds 7 and 2024 had identical numbers
+because the model predicted `claim` for every post, and that 3 of my 5 staff
+disagreements were me calling `analysis` because a number was present. That
+led to my one change (epochs 3 → 10).
+
 **Pre-labelling disclosure:**
 20 of the 200 rows were labelled by me alone,
 with no tools, before any AI was involved; they are marked `cold` in the
@@ -616,26 +626,102 @@ my confusion matrix shows the model failing on every seed (8–10 of 10
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** One training setting: `EPOCHS = 3` → `EPOCHS = 10` in
+section 2 of the notebook. Nothing else changed: same `labels.csv`, same
+labels, learning rate 2e-5, batch size 16, max_length 128, same seeds (42, 7,
+2024), same device (`mps`, Apple Silicon GPU, torch 2.14.1). The three-seed
+run took about 1 minute 30 seconds. Results are in
+`results_three_seeds_after.json`.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** My main diagnosis for criteria 1, 2 and 3
+was that the model collapsed onto `claim` because it barely trained: 27
+gradient updates, with training loss still near ln(3), the loss of random
+guessing. If that was right, more training on the same data should make the
+model predict all three labels. If the real cause had been my labels, more
+epochs would have mostly memorised the inconsistency and left the test
+numbers flat.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.65 on every seed | 0.767 | 0.667 | 0.600 | MISSED |
+| 2. Every label F1 (lowest label shown) | ≥ 0.55 on every seed | 0.444 (`banter`) | 0.444 (`banter`) | 0.200 (`banter`) | MISSED |
+| 3. True `analysis` predicted as `claim` | ≤ 30% on every seed | 10% (1/10) | 50% (5/10) | 10% (1/10) | MISSED |
+| 4. Agreement with staff labels | ≥ 70% (21/30) | 83% (25/30) | same (one measurement) | same (one measurement) | MET |
+| 5. Most-confident third minus least-confident third (accuracy) | ≥ +0.20 on every seed | +0.200 (0.900 vs 0.700) | +0.000 (0.700 vs 0.700) | +0.700 (0.900 vs 0.200) | MISSED |
+
+**Spread across seeds, after** (from section 6):
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.767 | 0.667 | 0.600 | 0.167 |
+| Macro F1 | 0.701 | 0.611 | 0.521 | 0.180 |
+| F1 — `analysis` | 0.857 | 0.667 | 0.696 | 0.190 |
+| F1 — `claim` | 0.800 | 0.722 | 0.667 | 0.133 |
+| F1 — `banter` | 0.444 | 0.444 | 0.200 | 0.244 |
+
+**Confusion matrices, after:**
+
+Seed 42:
+
+| true \ predicted | analysis | claim | banter |
+|---|---|---|---|
+| **analysis** | 9 | 1 | 0 |
+| **claim** | 1 | 12 | 0 |
+| **banter** | 1 | 4 | 2 |
+
+Seed 7:
+
+| true \ predicted | analysis | claim | banter |
+|---|---|---|---|
+| **analysis** | 5 | 5 | 0 |
+| **claim** | 0 | 13 | 0 |
+| **banter** | 0 | 5 | 2 |
+
+Seed 2024:
+
+| true \ predicted | analysis | claim | banter |
+|---|---|---|---|
+| **analysis** | 8 | 1 | 1 |
+| **claim** | 3 | 9 | 1 |
+| **banter** | 2 | 4 | 1 |
+
+**Before vs. after, side by side:**
+
+| Measure | Before (42 / 7 / 2024) | After (42 / 7 / 2024) |
+|---|---|---|
+| Overall accuracy | 0.500 / 0.433 / 0.433 | 0.767 / 0.667 / 0.600 |
+| Macro F1 | 0.322 / 0.202 / 0.202 | 0.701 / 0.611 / 0.521 |
+| F1 — `analysis` | 0.333 / 0.000 / 0.000 | 0.857 / 0.667 / 0.696 |
+| F1 — `claim` | 0.634 / 0.605 / 0.605 | 0.800 / 0.722 / 0.667 |
+| F1 — `banter` | 0.000 / 0.000 / 0.000 | 0.444 / 0.444 / 0.200 |
+| `analysis` → `claim` | 80% / 100% / 100% | 10% / 50% / 10% |
+| Confidence gap | +0.400 / +0.500 / +0.600 | +0.200 / +0.000 / +0.700 |
+| Criteria met | 2 of 5 (4, 5) | 1 of 5 (4) |
 
 **Did it help, and how do I know:**
+Yes. The model got much better, even though it now meets fewer of my
+criteria. On every seed, accuracy rose by 0.17 to 0.27 and macro F1 by 0.32 to
+0.41, and every seed now beats both the 0.433 majority-class floor and the
+zero-shot baseline (0.367). The collapse is gone: the model predicts all three
+labels on every seed, `banter` is predicted for the first time (2, 2 and 1
+correct), and `analysis` → `claim` fell from 80–100% to 10% on two seeds.
+That confirms the diagnosis that undertraining was the main cause.
 
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
+It still misses criteria 1, 2 and 3, each on at least one seed: seed 2024 is
+at 0.600 accuracy, `banter` F1 never reaches 0.55, and seed 7 still sends
+5 of 10 `analysis` posts to `claim`. Criterion 5 went from MET to MISSED
+(seed 7's gap is 0.000). I read that as the "before" pass being hollow, as I
+noted in my verdicts: a model that only says `claim` was confident on the
+posts that happened to be `claim`. Now that it makes real choices, its
+confidence turns out not to be reliably informative on seed 7.
 
-
+The spread across seeds grew from 0.067 to 0.167 in accuracy, above the
+10-point line. The "before" stability was an artefact of predicting one label
+on every split. The "after" spread is the real one: with 30 test posts and
+only 7 `banter` among them, one post moves accuracy 3.3 points and `banter`
+F1 by about 14, so these numbers are not a stable measure yet.
 
 ---
 
@@ -643,12 +729,26 @@ my confusion matrix shows the model failing on every seed (8–10 of 10
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+| Criterion still missed | After (42 / 7 / 2024) | What I'd do next |
+|---|---|---|
+| 1. Accuracy ≥ 0.65 | 0.767 / 0.667 / 0.600 | Fix the two causes below rather than train longer. |
+| 2. Every label F1 ≥ 0.55 | `banter` 0.444 / 0.444 / 0.200 | Add 30 more `banter` posts, my thinnest label (50). |
+| 3. `analysis` → `claim` ≤ 30% | 10% / 50% / 10% | Relabel `analysis` rows where a number is present but the point doesn't depend on it. |
+| 5. Confidence gap ≥ +0.20 | +0.200 / +0.000 / +0.700 | Get more test data: each third is only 10 posts. |
+
+Why I stopped: the brief allows one change, and I used it on epochs because
+my diagnosis named undertraining as the main cause.
 
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
-
+I meant `banter` to capture insincerity, but the model learned the surface
+form of an opinion: 13 of 21 real `banter` posts across the three seeds were
+predicted `claim`, and almost none went the other way. `analysis` came out
+closer to what I meant (9, 5 and 8 of 10 correct), though my own loose labels
+may have taught it "contains a number" rather than "the point depends on a
+checkable fact."
 
 
 <!-- ═════════════════════════════════════════════════════════════════════
